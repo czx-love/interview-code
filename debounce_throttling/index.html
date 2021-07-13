@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>节流、防抖</title>
+    <style>
+      div {
+        width: 100%;
+        height: 200px;
+        background: pink;
+        color: #999;
+        font-size: 70px;
+        line-height: 200px;
+        text-align: center;
+      }
+      section {
+        width: 200px;
+        margin: 0 auto;
+        background: lightblue;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>防抖</h3>
+    <p>防抖：控制事件发生次数。</p>
+    <div id="debounceDiv">1</div>
+
+    <h3>节流</h3>
+    <p>节流：控制频率</p>
+    <section></section>
+  </body>
+  <script>
+    function debounce(fn, wait) {
+      let timer = null
+      return function () {
+        // debugger
+        const ctx = this
+        const args = arguments
+        if (timer) {
+          clearTimeout(timer)
+        }
+        timer = setTimeout(() => {
+          fn.apply(ctx, args)
+          console.log('timeout：', timer)
+        }, wait)
+      }
+    }
+    let count = 1
+    const fn = () => {
+      console.log('触发mouseover')
+      debounceDiv.innerText = ++count
+    }
+    const debounceDiv = document.getElementById('debounceDiv')
+    // debounceDiv.addEventListener('mousemove', fn)
+    debounceDiv.addEventListener('mousemove', debounce(fn, 1000))
+  </script>
+</html>
